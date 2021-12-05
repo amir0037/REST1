@@ -40,9 +40,17 @@ public class CustomIdentityStoreJPAHelper {
 		LOG.debug("find a User By the Name={}", username);
 		SecurityUser user = null;
 		//TODO:  Call the entity manager's createNamedQuery() method to call SecurityUser's named query called "SecurityUser.userByName"
+		TypedQuery<SecurityUser> tp  = em.createNamedQuery(SECURITY_USER_BY_NAME_QUERY, SecurityUser.class);
 		//       The named query "SecurityUser.userByName" accepts a parameter called "param1" so be sure to set it with the value of parameter "username"
+		tp.setParameter("param1", username);
 		//       Call the typed query's getSingleResult() inside a try-catch statement
+		try {
+			tp.getSingleResult();		
 		//       The exception to catch is NoResultException
+		} catch (NoResultException e) {
+			LOG.debug(e);
+			user = null;
+		}
 		//       Be sure to assign the SecurityUser object returned by getSingleResult() to variable "user" inside the try block and return it 
 		return user;
 	}
