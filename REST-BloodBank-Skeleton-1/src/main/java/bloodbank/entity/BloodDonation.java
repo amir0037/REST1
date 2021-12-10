@@ -30,14 +30,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table( name = "blood_donation")
-<<<<<<< Upstream, based on origin/master
-@NamedQuery(name = BloodDonation.FIND_ALL, query = "SELECT b FROM BloodDonation b")
-@NamedQuery( name = BloodDonation.FIND_BY_ID, query = "SELECT bb FROM BloodDonation bb")
-=======
 @NamedQuery( name = BloodDonation.FIND_ALL, query = "SELECT b FROM BloodDonation b left join fetch b.bank left join fetch b.record")
 @NamedQuery( name = BloodDonation.FIND_BY_ID, query = "SELECT b FROM BloodDonation b left join fetch b.bank left join fetch b.record where b.id=:param1")
 
->>>>>>> fc74e7e Fixed queries (left join fetch added)
 @AttributeOverride( name = "id", column = @Column( name = "donation_id"))
 public class BloodDonation extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;

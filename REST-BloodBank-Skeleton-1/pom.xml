@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cst8277</groupId>
-  <artifactId>REST-BloodBank</artifactId>
+  <artifactId>REST-BloodBank-Skeleton</artifactId>
   <version>1</version>
-  <name>REST-BloodBank-Skeleton Solution</name>
+  <name>REST-BloodBank-Skeleton-FIXED</name>
   <packaging>war</packaging>
-  <description>REST-BloodBank</description>
+  <description>REST-BloodBank-Skeleton</description>
 
   <!-- why is everything a property? Because hard-coded values become part of
       Maven's immutable Model object and then their contents can't be changed.

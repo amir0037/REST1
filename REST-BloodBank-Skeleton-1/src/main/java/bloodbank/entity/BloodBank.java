@@ -61,7 +61,9 @@ public abstract class BloodBank extends PojoBase implements Serializable {
 	private boolean isPublic;
 	
 	public BloodBank() {
+		super();
 	}
+	
 
 	@JsonIgnore
 	public Set< BloodDonation> getDonations() {
