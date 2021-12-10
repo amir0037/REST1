@@ -29,7 +29,7 @@ import javax.persistence.Table;
 @Entity
 @Table( name = "blood_donation")
 @NamedQuery(name = BloodDonation.FIND_ALL, query = "SELECT b FROM BloodDonation b")
-@NamedQuery( name = BloodDonation.FIND_BY_ID, query = "SELECT bb FROM BloodBank bb")
+@NamedQuery( name = BloodDonation.FIND_BY_ID, query = "SELECT bb FROM BloodDonation bb")
 @AttributeOverride( name = "id", column = @Column( name = "donation_id"))
 public class BloodDonation extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;

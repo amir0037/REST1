@@ -60,6 +60,7 @@ import bloodbank.entity.BloodDonation;
 import bloodbank.entity.Contact;
 import bloodbank.entity.DonationRecord;
 import bloodbank.entity.Person;
+import bloodbank.entity.Phone;
 import bloodbank.entity.SecurityRole;
 import bloodbank.entity.SecurityUser;
 
@@ -300,5 +301,136 @@ public class BloodBankService implements Serializable {
         }
         return bloodDonationToBeUpdated;
     }
+    
+    @Transactional
+    public BloodDonation deleteBloodDonation(int bloodId) {
+    	BloodDonation blood = getBloodDonationById(bloodId);
+    	em.refresh(blood);
+    	em.remove(blood);
+    	
+    	return blood;
+    }
+    
+    
+    // Begin Address Resource
+    @Transactional
+    public Address persistAddress(Address newAddress) {
+    	em.persist(newAddress);
+    	return newAddress;
+    }
+    
+    public Address getAddressById(int id) {
+    	return em.find(Address.class, id);
+    	//return null;
+    }
+    
+    
+    @Transactional
+    public Address updateAddress(int id, Address updateAddress) {
+    	Address addressToBeUpdated = getAddressById(id);
+    	if (addressToBeUpdated != null) {
+    		em.refresh(addressToBeUpdated);
+    		em.merge(updateAddress);
+    		em.flush();
+    	}
+    	return addressToBeUpdated;
+    }
+    
+    @Transactional
+    public Address deleteAddressById(int addressId) {
+    	Address address = getAddressById(addressId);
+    	em.refresh(address);
+    	em.remove(address);
+    	
+    	return address;
+    }
+    // End Address Resource
+    
+    // Begin Phone Resource
+    public Phone getPhoneById(int phoneId) {
+    	return em.find(Phone.class, phoneId);
+    }
+    
+    @Transactional
+    public Phone persistPhone(Phone newPhone) {
+    	em.persist(newPhone);
+    	return newPhone;
+    }
+    
+    @Transactional
+    public Phone updatePhone(int id, Phone updatePhone) {
+    	Phone phoneToBeUpdated = getPhoneById(id);
+    	if (phoneToBeUpdated != null) {
+    		em.refresh(phoneToBeUpdated);
+    		em.merge(updatePhone);
+    		em.flush();
+    	}
+    	return phoneToBeUpdated;
+    }
+    
+    @Transactional
+    public Phone deletePhoneById(int phoneId) {
+    	Phone phone = getPhoneById(phoneId);
+    	em.refresh(phone);
+    	em.remove(phone);
+    	
+    	return phone;
+    }
+    
+    // End Phone Resource
+    
+    
+    // Begin DonationRecord Resource
+    public DonationRecord getDonationRecordById(int recordId) {
+    	return em.find(DonationRecord.class, recordId);
+    }
+    
+    @Transactional
+    public DonationRecord persistDonationRecord(DonationRecord newDonation) {
+    	em.persist(newDonation);
+    	return newDonation;
+    }
+    
+    @Transactional
+    public DonationRecord updateDonationRecord(int id, DonationRecord updateDonation) {
+    	DonationRecord donationToBeUpdated = getDonationRecordById(id);
+    	if (donationToBeUpdated != null) {
+    		em.refresh(donationToBeUpdated);
+    		em.merge(donationToBeUpdated);
+    		em.flush();
+    	}
+    	return donationToBeUpdated;
+    }
+    
+    @Transactional
+    public DonationRecord deleteDonationRecordById(int recordId) {
+    	DonationRecord record = getDonationRecordById(recordId);
+    	em.refresh(record);
+    	em.remove(record);
+    	
+    	return record;
+    }
+    
+    // End DonationRecord Resource
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
