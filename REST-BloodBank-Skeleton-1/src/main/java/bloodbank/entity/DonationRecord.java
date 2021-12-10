@@ -22,14 +22,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the donation_record database table.
  */
 @Entity
 @Table( name = "donation_record")
-@NamedQuery( name = DonationRecord.ALL_RECORDS_QUERY_NAME, query = "SELECT d FROM DonationRecord d")
-//TODO: fix the JPQL for "DonationRecord.findById"
-@NamedQuery( name = DonationRecord.ID_RECORD_QUERY_NAME, query = "SELECT s FROM DonationRecord d where FIXTHIS")
+@NamedQuery( name = DonationRecord.ALL_RECORDS_QUERY_NAME, query = "SELECT d FROM DonationRecord d left join fetch d.donation left join fetch d.owner")
+@NamedQuery( name = DonationRecord.ID_RECORD_QUERY_NAME, query = "SELECT d FROM DonationRecord d left join fetch d.donation where d.id=:param1")
 @AttributeOverride( name = "id", column = @Column( name = "record_id"))
 public class DonationRecord extends PojoBase implements Serializable {
 	
@@ -60,6 +61,7 @@ public class DonationRecord extends PojoBase implements Serializable {
 		this.tested = tested;
 	}
 
+	@JsonIgnore
 	public BloodDonation getDonation() {
 		return donation;
 	}
@@ -71,6 +73,7 @@ public class DonationRecord extends PojoBase implements Serializable {
 		}
 	}
 
+	@JsonIgnore
 	public Person getOwner() {
 		return owner;
 	}

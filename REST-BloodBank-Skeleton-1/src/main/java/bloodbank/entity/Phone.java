@@ -23,13 +23,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the phone database table.
  */
 @Entity
 @Table(name="phone")
 @AttributeOverride(name="id", column=@Column(name="phone_id"))
-@NamedQuery( name = Phone.ALL_PHONES_QUERY, query = "SELECT b FROM Phone b")
+@NamedQuery( name = Phone.ALL_PHONES_QUERY, query = "SELECT b FROM Phone b left join fetch b.contacts")
 public class Phone extends PojoBase implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -86,7 +88,8 @@ public class Phone extends PojoBase implements Serializable{
 	public void setNumber( String number) {
 		this.number = number;
 	}
-
+	
+	@JsonIgnore
 	public Set< Contact> getContacts() {
 		return contacts;
 	}

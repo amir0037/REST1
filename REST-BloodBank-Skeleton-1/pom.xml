@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cst8277</groupId>
-  <artifactId>REST-BloodBank-Skeleton</artifactId>
+  <artifactId>REST-BloodBank</artifactId>
   <version>1</version>
-  <name>REST-BloodBank-Skeleton-FIXED</name>
+  <name>REST-BloodBank-Skeleton Solution</name>
   <packaging>war</packaging>
-  <description>REST-BloodBank-Skeleton</description>
+  <description>REST-BloodBank</description>
 
   <!-- why is everything a property? Because hard-coded values become part of
       Maven's immutable Model object and then their contents can't be changed.
@@ -24,6 +24,9 @@
     <maven.compiler.release>11</maven.compiler.release>
     <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
+    <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>
+	<maven-site-plugin.version>3.9.1</maven-site-plugin.version>
+    <maven-project-info-reports-plugin.version>3.1.1</maven-project-info-reports-plugin.version>
     <failOnMissingWebXml>false</failOnMissingWebXml>
     
     <!-- code properties -->
@@ -201,6 +204,30 @@
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<version>${maven.surefire.plugin.version}</version>
+		<configuration>
+			<testFailureIgnore>true</testFailureIgnore>
+            <forkCount>1</forkCount>
+            <reuseForks>false</reuseForks>
+			<includes>
+				<include>**/**Test.java</include>
+				<include>**/Test**.java</include>
+			</includes>
+		</configuration>
+	  </plugin>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-site-plugin</artifactId>
+		<version>${maven-site-plugin.version}</version>
+	  </plugin>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-project-info-reports-plugin</artifactId>
+		<version>${maven-project-info-reports-plugin.version}</version>
+	  </plugin>
       <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
@@ -213,5 +240,14 @@
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-report-plugin</artifactId>
+		</plugin>
+	</plugins>
+  </reporting>
 
 </project>

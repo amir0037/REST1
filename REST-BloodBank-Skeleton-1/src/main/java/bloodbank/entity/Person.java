@@ -22,17 +22,21 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the person database table.
  */
 @Entity
 @Table(name="person")
-@NamedQuery( name = Person.ALL_PERSONS_QUERY_NAME, query = "SELECT p FROM Person p")
+@NamedQuery( name = Person.ALL_PERSONS_QUERY_NAME, query = "SELECT p FROM Person p left join fetch p.contacts left join fetch p.donations")
+@NamedQuery( name = Person.QUERY_PERSON_BY_ID, query = "SELECT p FROM Person p left join fetch p.contacts left join fetch p.donations where p.id=:param1")
+
 public class Person extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String ALL_PERSONS_QUERY_NAME = "Person.findAll";
-
+	public static final String QUERY_PERSON_BY_ID = "Person.findAllByID";
 	@Column( name = "first_name")
 	private String firstName;
 
@@ -61,6 +65,7 @@ public class Person extends PojoBase implements Serializable {
 		this.lastName = lastName;
 	}
 
+	@JsonIgnore
 	public Set< DonationRecord> getDonations() {
 		return donations;
 	}
@@ -68,6 +73,7 @@ public class Person extends PojoBase implements Serializable {
 		this.donations = donations;
 	}
 
+	@JsonIgnore
 	public Set< Contact> getContacts() {
 		return contacts;
 	}

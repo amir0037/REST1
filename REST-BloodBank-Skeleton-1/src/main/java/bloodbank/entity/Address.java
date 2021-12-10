@@ -23,12 +23,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the address database table.
  */
 @Entity
 @Table( name = "address")
-@NamedQuery( name = "Address.findAll", query = "SELECT a FROM Address a")
+@NamedQuery( name = "Address.findAll", query = "SELECT a FROM Address a left JOIN FETCH a.contacts") //
 @AttributeOverride( name = "id", column = @Column( name = "address_id"))
 public class Address extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -112,6 +114,7 @@ public class Address extends PojoBase implements Serializable {
 		this.zipcode = zipcode;
 	}
 
+	@JsonIgnore
 	public Set< Contact> getContacts() {
 		return contacts;
 	}

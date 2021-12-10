@@ -10,5 +10,6 @@ open module bloodbank {
 	requires jakarta.security.enterprise;
 	requires java.instrument;
 	requires java.sql;
+	//requires com.fasterxml.jackson.jaxrs.json;
     
 }

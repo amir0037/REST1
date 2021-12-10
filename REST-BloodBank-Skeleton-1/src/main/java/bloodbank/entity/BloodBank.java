@@ -29,6 +29,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the blood_bank database table.
  */
@@ -37,10 +39,9 @@ import javax.persistence.Transient;
 @Access(AccessType.FIELD)
 @AttributeOverride(name="id", column=@Column(name="bank_id"))
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@NamedQuery( name = BloodBank.ALL_BLOODBANKS_QUERY_NAME, query = "SELECT bb FROM BloodBank bb")
-//TODO: fix the JPQL for "BloodBank.findByName", "BloodBank.isDuplicate"
-@NamedQuery( name = BloodBank.SPECIFIC_BLOODBANKS_QUERY_NAME, query = "SELECT bb FROM BloodBank bb where FIXTHIS")
-@NamedQuery( name = BloodBank.IS_DUPLICATE_QUERY_NAME, query = "SELECT bb FROM BloodBank bb where FIXTHIS")
+@NamedQuery( name = BloodBank.ALL_BLOODBANKS_QUERY_NAME, query = "SELECT distinct b FROM BloodBank b left JOIN FETCH b.donations")
+@NamedQuery( name = BloodBank.IS_DUPLICATE_QUERY_NAME, query = "SELECT count(b) FROM BloodBank b where b.name=:param1")
+@NamedQuery( name = BloodBank.SPECIFIC_BLOODBANKS_QUERY_NAME, query = "SELECT distinct b FROM BloodBank b left JOIN FETCH b.donations where b.name=:param1")
 @DiscriminatorColumn(name="privately_owned",columnDefinition = "BIT(1)", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class BloodBank extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -62,6 +63,7 @@ public abstract class BloodBank extends PojoBase implements Serializable {
 	public BloodBank() {
 	}
 
+	@JsonIgnore
 	public Set< BloodDonation> getDonations() {
 		return donations;
 	}

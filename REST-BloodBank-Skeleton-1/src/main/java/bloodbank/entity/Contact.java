@@ -24,13 +24,15 @@ import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the contact database table.
  */
 @Entity
 @Table( name = "contact")
 @Access(AccessType.PROPERTY)
-@NamedQuery( name = "Contact.findAll", query = "SELECT c FROM Contact c")
+@NamedQuery( name = "Contact.findAll", query = "SELECT c FROM Contact c left JOIN FETCH c.address left JOIN FETCH c.phone left JOIN FETCH c.owner")
 public class Contact extends PojoBaseCompositeKey< ContactPK> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -55,6 +57,7 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 		this.id = id;
 	}
 	
+	@JsonIgnore
 	@MapsId( "personId")
 	@ManyToOne( cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
 	@JoinColumn( name = "person_id", referencedColumnName = "id", nullable = false)
@@ -69,6 +72,7 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 		}
 	}
 	
+	@JsonIgnore
 	@MapsId( "phoneId")
 	@ManyToOne( cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
 	@JoinColumn( name = "phone_id", referencedColumnName = "phone_id", nullable = false)
@@ -83,6 +87,7 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 		}
 	}
 	
+	@JsonIgnore
 	@ManyToOne( cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
 	@JoinColumn( name = "address_id", referencedColumnName = "address_id", nullable = true)
 	public Address getAddress() {

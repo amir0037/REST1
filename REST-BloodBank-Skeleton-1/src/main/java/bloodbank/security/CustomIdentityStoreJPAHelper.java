@@ -45,7 +45,7 @@ public class CustomIdentityStoreJPAHelper {
 		tp.setParameter("param1", username);
 		//       Call the typed query's getSingleResult() inside a try-catch statement
 		try {
-			tp.getSingleResult();		
+			user = tp.getSingleResult();		
 		//       The exception to catch is NoResultException
 		} catch (NoResultException e) {
 			LOG.debug(e);

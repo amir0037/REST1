@@ -23,13 +23,21 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the blood_donation database table.
  */
 @Entity
 @Table( name = "blood_donation")
+<<<<<<< Upstream, based on origin/master
 @NamedQuery(name = BloodDonation.FIND_ALL, query = "SELECT b FROM BloodDonation b")
 @NamedQuery( name = BloodDonation.FIND_BY_ID, query = "SELECT bb FROM BloodDonation bb")
+=======
+@NamedQuery( name = BloodDonation.FIND_ALL, query = "SELECT b FROM BloodDonation b left join fetch b.bank left join fetch b.record")
+@NamedQuery( name = BloodDonation.FIND_BY_ID, query = "SELECT b FROM BloodDonation b left join fetch b.bank left join fetch b.record where b.id=:param1")
+
+>>>>>>> fc74e7e Fixed queries (left join fetch added)
 @AttributeOverride( name = "id", column = @Column( name = "donation_id"))
 public class BloodDonation extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -55,6 +63,7 @@ public class BloodDonation extends PojoBase implements Serializable {
 		bloodType = new BloodType();
 	}
 
+	@JsonIgnore
 	public BloodBank getBank() {
 		return bank;
 	}
@@ -66,6 +75,7 @@ public class BloodDonation extends PojoBase implements Serializable {
 		}
 	}
 
+	@JsonIgnore
 	public DonationRecord getRecord() {
 		return record;
 	}

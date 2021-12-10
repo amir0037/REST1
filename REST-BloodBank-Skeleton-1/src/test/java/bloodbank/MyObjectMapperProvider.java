@@ -17,9 +17,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 @Provider
-public class MyObjectMapperProvider implements ContextResolver<ObjectMapper> {
+public class MyObjectMapperProvider extends JacksonJsonProvider implements ContextResolver<ObjectMapper> {
     final ObjectMapper defaultObjectMapper;
     public MyObjectMapperProvider() {
         defaultObjectMapper = createDefaultMapper();
