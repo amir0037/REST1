@@ -30,10 +30,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table( name = "address")
-@NamedQuery( name = "Address.findAll", query = "SELECT a FROM Address a left JOIN FETCH a.contacts") //
+@NamedQuery( name = Address.ADDRESS_FIND_ALL_QUERY, query = "SELECT a FROM Address a") // left JOIN FETCH a.contacts
+@NamedQuery( name = Address.SPECIFIC_ADDRESS_QUERY_ID, query = "SELECT a FROM Address a where a.id=:param1") //left JOIN FETCH a.contacts 
+
 @AttributeOverride( name = "id", column = @Column( name = "address_id"))
 public class Address extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String SPECIFIC_ADDRESS_QUERY_ID = "Address.findById";
+	public static final String ADDRESS_FIND_ALL_QUERY = "Address.findAll";
 	
 	@Column( name = "street_number", nullable = false, length = 10)
 	private String streetNumber;

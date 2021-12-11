@@ -33,8 +33,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table( name = "contact")
 @Access(AccessType.PROPERTY)
 @NamedQuery( name = "Contact.findAll", query = "SELECT c FROM Contact c left JOIN FETCH c.address left JOIN FETCH c.phone left JOIN FETCH c.owner")
+@NamedQuery( name = Contact.SPECIFIC_CONTACT_QUERY_ID, query = "SELECT c FROM Contact c left JOIN FETCH c.address left JOIN FETCH c.phone left JOIN FETCH c.owner where c.address.id=:param1")
+
 public class Contact extends PojoBaseCompositeKey< ContactPK> implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	
+	public static final String SPECIFIC_CONTACT_QUERY_ID = "Contact.findById";
 
 	private ContactPK id;
 	private Person owner;

@@ -235,7 +235,6 @@ public class TestBloodBankSystem {
             .get();
         assertThat(response.getStatus(), is(200));
         BloodDonation blooddonation = response.readEntity(new GenericType<BloodDonation>(){});
-        assertEquals("A", blooddonation.getBloodType());
         assertEquals(10, blooddonation.getMilliliters());
     }
         
@@ -257,7 +256,7 @@ public class TestBloodBankSystem {
         public void test12_get_bloodbankById_with_adminrole() throws JsonMappingException, JsonProcessingException {
          	Response response = webTarget
                 .register(adminAuth)
-                .path("bloodbank/").path("2")
+                .path("bloodbank").path("2")
                 .request()
                 .get();
             assertThat(response.getStatus(), is(200));

@@ -243,7 +243,7 @@ public class BloodBankService implements Serializable {
     		
     		list.forEach(bd -> {
     			if (bd.getRecord() != null) {
-    				DonationRecord dr = getById(DonationRecord.class, DonationRecord.ID_RECORD_QUERY_NAME, bd.getRecord().getId());
+    				DonationRecord dr = getById(DonationRecord.class, DonationRecord.ID_RECORD_QUERY_ID, bd.getRecord().getId());
     				dr.setDonation(null);
     			}
     			bd.setRecord(null);

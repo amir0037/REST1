@@ -31,11 +31,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="phone")
 @AttributeOverride(name="id", column=@Column(name="phone_id"))
-@NamedQuery( name = Phone.ALL_PHONES_QUERY, query = "SELECT b FROM Phone b left join fetch b.contacts")
+@NamedQuery( name = Phone.ALL_PHONES_QUERY, query = "SELECT b FROM Phone b") // left join fetch b.contacts
+@NamedQuery( name = Phone.PHONES_QUERY_BY_ID, query = "SELECT b FROM Phone b where b.id=:param1") //left join fetch b.contacts 
 public class Phone extends PojoBase implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String ALL_PHONES_QUERY = "Phone.findAll";
+	public static final String PHONES_QUERY_BY_ID = "Phone.findByID";
 
 	@Column( name = "area_code")
 	private String areaCode;

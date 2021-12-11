@@ -29,15 +29,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table( name = "donation_record")
-@NamedQuery( name = DonationRecord.ALL_RECORDS_QUERY_NAME, query = "SELECT d FROM DonationRecord d left join fetch d.donation left join fetch d.owner")
-@NamedQuery( name = DonationRecord.ID_RECORD_QUERY_NAME, query = "SELECT d FROM DonationRecord d left join fetch d.donation where d.id=:param1")
+@NamedQuery( name = DonationRecord.ALL_RECORDS_QUERY_NAME, query = "SELECT d FROM DonationRecord d")
+@NamedQuery( name = DonationRecord.ID_RECORD_QUERY_ID, query = "SELECT d FROM DonationRecord d where d.id=:param1")
 @AttributeOverride( name = "id", column = @Column( name = "record_id"))
 public class DonationRecord extends PojoBase implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	public static final String ALL_RECORDS_QUERY_NAME = "DonationRecord.findAll";
-	public static final String ID_RECORD_QUERY_NAME = "DonationRecord.findById";
+	public static final String ID_RECORD_QUERY_ID = "DonationRecord.findById";
 
 	@OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="donation_id", referencedColumnName="donation_id")
