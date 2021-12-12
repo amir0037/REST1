@@ -37,7 +37,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Contact extends PojoBaseCompositeKey< ContactPK> implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	
 	public static final String SPECIFIC_CONTACT_QUERY_ID = "Contact.findById";
 

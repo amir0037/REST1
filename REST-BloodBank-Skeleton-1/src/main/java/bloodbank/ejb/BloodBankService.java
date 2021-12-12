@@ -413,7 +413,42 @@ public class BloodBankService implements Serializable {
     
     // End DonationRecord Resource
     
+    //Begin Contact Resource
+    public Contact getContactById(int contactId) {
+    	return em.find(Contact.class, contactId);
+    }
     
+    @Transactional
+    public Contact persistContact(Contact newContact) {
+    	em.persist(newContact);
+    	return newContact;
+    }
+    
+    @Transactional
+    public Contact updateContact(int id, Contact contact) {
+    	Contact contactToBeUpdated = getContactById(id);
+    	if (contactToBeUpdated != null) {
+    		em.refresh(contactToBeUpdated);
+    		em.merge(contactToBeUpdated);
+    		em.flush();
+    	}
+    	return contactToBeUpdated;
+    }
+    
+    @Transactional
+    public Contact deleteContactById(int contactId) {
+    	Contact record = getContactById(contactId);
+        if (record != null) {
+        	record.setPhone(null);
+        	record.setAddress(null);
+            em.merge(record);
+            em.remove(record);
+        }
+    	
+    	return record;
+    }
+    
+    //End Contact Resource
 
     
     
