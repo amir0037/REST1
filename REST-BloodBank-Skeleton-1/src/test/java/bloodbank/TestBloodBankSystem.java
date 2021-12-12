@@ -71,6 +71,7 @@ public class TestBloodBankSystem {
     static URI uri;
     static HttpAuthenticationFeature adminAuth;
     static HttpAuthenticationFeature userAuth;
+    static public Integer createdAddress_id;
 
     @BeforeAll
     public static void oneTimeSetUp() throws Exception {
@@ -291,10 +292,30 @@ public class TestBloodBankSystem {
             }
 
     
+    //TESTS DELETE
     
-    
-    
-    
+    //person address blooddonation phones bloodbank contact donationrecord
+        
+        @Test
+        public void test16_delete_address_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        		.register(adminAuth)
+                .path("address").path(createdAddress_id.toString())
+                .request()
+                .delete();
+        	assertThat(response.getStatus(), is(200));
+        	assertEquals(response.hasEntity(), true);
+      }
+        
+        @Test
+        public void test15_delete_address_with_userrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        		.register(userAuth)
+                .path("address").path(createdAddress_id.toString())
+                .request()
+                .delete();
+        	assertThat(response.getStatus(), is(403));
+      }
     
     
     

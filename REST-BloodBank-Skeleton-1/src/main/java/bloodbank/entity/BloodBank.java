@@ -53,7 +53,8 @@ public abstract class BloodBank extends PojoBase implements Serializable {
 	@Column( name = "name")
 	private String name;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.REMOVE},orphanRemoval=true)
     @JoinColumn(name="bank_id")
 	private Set< BloodDonation> donations = new HashSet<>();
 

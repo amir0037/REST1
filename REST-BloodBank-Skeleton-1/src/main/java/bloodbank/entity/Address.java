@@ -58,7 +58,7 @@ public class Address extends PojoBase implements Serializable {
 	@Column( name = "zipcode", nullable = false, length = 100)
 	private String zipcode;
 
-	@OneToMany(cascade=CascadeType.MERGE, fetch = FetchType.LAZY)
+	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 	@JoinColumn( name = "address_id", referencedColumnName = "address_id", insertable = false, updatable = false)
 	private Set< Contact> contacts = new HashSet<>();
 

@@ -48,7 +48,7 @@ public class Phone extends PojoBase implements Serializable{
 	@Column( name = "number")
 	private String number;
 
-	@OneToMany(cascade=CascadeType.MERGE, fetch = FetchType.LAZY)
+	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
 	@JoinColumn( name = "phone_id", referencedColumnName = "phone_id", insertable = false, updatable = false)
 	private Set< Contact> contacts = new HashSet<>();
 
