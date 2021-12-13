@@ -42,6 +42,7 @@ import java.util.Set;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -58,6 +59,7 @@ import bloodbank.entity.Address;
 import bloodbank.entity.BloodBank;
 import bloodbank.entity.BloodDonation;
 import bloodbank.entity.Contact;
+import bloodbank.entity.ContactPK;
 import bloodbank.entity.DonationRecord;
 import bloodbank.entity.Person;
 import bloodbank.entity.Phone;
@@ -304,11 +306,17 @@ public class BloodBankService implements Serializable {
     
     @Transactional
     public BloodDonation deleteBloodDonation(int bloodId) {
-    	BloodDonation blood = getBloodDonationById(bloodId);
-    	em.refresh(blood);
-    	em.remove(blood);
-    	
-    	return blood;
+    	BloodDonation bd = getById(BloodDonation.class, BloodDonation.FIND_BY_ID, bloodId);
+    	if (bd != null) {
+    		
+    		DonationRecord donationRecord = bd.getRecord();
+    		donationRecord.setDonation(null);
+    		
+    			bd.setRecord(null);
+    			em.merge(bd);
+    	    		return bd;
+    	}
+    	return null;
     }
     
     
@@ -336,14 +344,29 @@ public class BloodBankService implements Serializable {
     	return addressToBeUpdated;
     }
     
+    
     @Transactional
     public Address deleteAddressById(int addressId) {
     	Address address = getAddressById(addressId);
     	em.refresh(address);
-    	em.remove(address);
-    	
-    	return address;
+    	if (address != null) {
+    		Set<Contact> contacts = address.getContacts();
+    		List<Contact> list = new LinkedList();
+    		contacts.forEach(list::add);
+    		
+    		list.forEach(c -> {
+    			if (c != null) {
+                	c.setAddress(null);
+                    em.merge(c);
+    			}
+    		});
+    		em.remove(address);
+    		return address;
+    	}
+    	return null;
     }
+    
+    
     // End Address Resource
     
     // Begin Phone Resource
@@ -425,8 +448,8 @@ public class BloodBankService implements Serializable {
     }
     
     @Transactional
-    public Contact updateContact(int id, Contact contact) {
-    	Contact contactToBeUpdated = getContactById(id);
+    public Contact updateContact(int contactId, Contact contact) {
+    	Contact contactToBeUpdated = getContactById(contactId);
     	if (contactToBeUpdated != null) {
     		em.refresh(contactToBeUpdated);
     		em.merge(contactToBeUpdated);
@@ -436,8 +459,8 @@ public class BloodBankService implements Serializable {
     }
     
     @Transactional
-    public Contact deleteContactById(int contactId) {
-    	Contact record = getContactById(contactId);
+    public Contact deleteContactById(int cId) {
+    	Contact record = getContactById(cId);
         if (record != null) {
         	record.setPhone(null);
         	record.setAddress(null);

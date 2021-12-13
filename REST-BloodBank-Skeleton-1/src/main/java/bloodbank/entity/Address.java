@@ -30,8 +30,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table( name = "address")
-@NamedQuery( name = Address.ADDRESS_FIND_ALL_QUERY, query = "SELECT a FROM Address a") // left JOIN FETCH a.contacts
-@NamedQuery( name = Address.SPECIFIC_ADDRESS_QUERY_ID, query = "SELECT a FROM Address a where a.id=:param1") //left JOIN FETCH a.contacts 
+@NamedQuery( name = Address.ADDRESS_FIND_ALL_QUERY, query = "SELECT a FROM Address a left JOIN FETCH a.contacts") // left JOIN FETCH a.contacts
+@NamedQuery( name = Address.SPECIFIC_ADDRESS_QUERY_ID, query = "SELECT a FROM Address a left JOIN FETCH a.contacts where a.id=:param1") //left JOIN FETCH a.contacts 
 
 @AttributeOverride( name = "id", column = @Column( name = "address_id"))
 public class Address extends PojoBase implements Serializable {

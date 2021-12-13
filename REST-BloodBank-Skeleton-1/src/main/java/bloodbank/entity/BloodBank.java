@@ -30,6 +30,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import bloodbank.rest.serializer.BloodBankSerializer;
+import bloodbank.rest.serializer.BloodBankDeserializer;
 
 /**
  * The persistent class for the blood_bank database table.
@@ -39,10 +43,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Access(AccessType.FIELD)
 @AttributeOverride(name="id", column=@Column(name="bank_id"))
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@NamedQuery( name = BloodBank.ALL_BLOODBANKS_QUERY_NAME, query = "SELECT distinct b FROM BloodBank b")
+@NamedQuery( name = BloodBank.ALL_BLOODBANKS_QUERY_NAME, query = "SELECT distinct b FROM BloodBank b left join fetch b.donations")
 @NamedQuery( name = BloodBank.IS_DUPLICATE_QUERY_NAME, query = "SELECT count(b) FROM BloodBank b where b.name=:param1")
-@NamedQuery( name = BloodBank.SPECIFIC_BLOODBANKS_QUERY_NAME, query = "SELECT distinct b FROM BloodBank b where b.id=:param1")
+@NamedQuery( name = BloodBank.SPECIFIC_BLOODBANKS_QUERY_NAME, query = "SELECT distinct b FROM BloodBank b left join fetch b.donations where b.id=:param1")
 @DiscriminatorColumn(name="privately_owned",columnDefinition = "BIT(1)", discriminatorType = DiscriminatorType.INTEGER)
+@JsonSerialize(using = BloodBankSerializer.class)
+@JsonDeserialize(using = BloodBankDeserializer.class)
 public abstract class BloodBank extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

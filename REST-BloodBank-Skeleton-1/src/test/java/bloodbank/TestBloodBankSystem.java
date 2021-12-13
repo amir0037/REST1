@@ -143,7 +143,7 @@ public class TestBloodBankSystem {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
-            .path("Phone")
+            .path("phone")
             .request()
             .get();
         assertThat(response.getStatus(), is(200));
@@ -300,7 +300,7 @@ public class TestBloodBankSystem {
         public void test16_delete_address_with_adminrole() throws JsonMappingException, JsonProcessingException {
         	Response response = webTarget
         		.register(adminAuth)
-                .path("address").path(createdAddress_id.toString())
+                .path("address").path("1")
                 .request()
                 .delete();
         	assertThat(response.getStatus(), is(200));
@@ -311,10 +311,10 @@ public class TestBloodBankSystem {
         public void test15_delete_address_with_userrole() throws JsonMappingException, JsonProcessingException {
         	Response response = webTarget
         		.register(userAuth)
-                .path("address").path(createdAddress_id.toString())
+                .path("address").path("1")
                 .request()
                 .delete();
-        	assertThat(response.getStatus(), is(403));
+        	assertThat(response.getStatus(), is(401));
       }
     
     
