@@ -31,6 +31,7 @@ import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -142,7 +143,7 @@ public class TestBloodBankSystem {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
-            .path("Phone")
+            .path("phone")
             .request()
             .get();
         assertThat(response.getStatus(), is(200));
@@ -289,6 +290,14 @@ public class TestBloodBankSystem {
             DonationRecord donationrecord = response.readEntity(new GenericType<DonationRecord>(){});
             assertEquals(0, donationrecord.getTested());
             }
+        
+        
+        
+        
+        
+        
+         
+       
 
     
     
