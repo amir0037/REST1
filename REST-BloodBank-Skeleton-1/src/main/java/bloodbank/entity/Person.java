@@ -29,8 +29,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name="person")
-@NamedQuery( name = Person.ALL_PERSONS_QUERY_NAME, query = "SELECT p FROM Person p left join fetch p.contacts left join fetch p.donations")
-@NamedQuery( name = Person.QUERY_PERSON_BY_ID, query = "SELECT p FROM Person p left join fetch p.contacts left join fetch p.donations where p.id=:param1")
+@NamedQuery( name = Person.ALL_PERSONS_QUERY_NAME, query = "SELECT p FROM Person p left join fetch p.donations left join fetch p.contacts")
+@NamedQuery( name = Person.QUERY_PERSON_BY_ID, query = "SELECT p FROM Person p left join fetch p.donations left join fetch p.contacts where p.id=:param1")
 
 public class Person extends PojoBase implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -43,11 +43,11 @@ public class Person extends PojoBase implements Serializable {
 	@Column( name = "last_name")
 	private String lastName;
 
-	@OneToMany(cascade= CascadeType.MERGE, fetch = FetchType.LAZY)
+	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},fetch = FetchType.LAZY)
 	@JoinColumn( name = "person_id", insertable = false, updatable = false)
 	private Set< DonationRecord> donations = new HashSet<>();
 
-	@OneToMany(cascade= CascadeType.MERGE, fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 	@JoinColumn( name = "person_id",insertable = false, updatable = false)
 	private Set< Contact> contacts = new HashSet<>();
 

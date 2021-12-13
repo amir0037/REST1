@@ -31,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="phone")
 @AttributeOverride(name="id", column=@Column(name="phone_id"))
-@NamedQuery( name = Phone.ALL_PHONES_QUERY, query = "SELECT b FROM Phone b") // left join fetch b.contacts
-@NamedQuery( name = Phone.PHONES_QUERY_BY_ID, query = "SELECT b FROM Phone b where b.id=:param1") //left join fetch b.contacts 
+@NamedQuery( name = Phone.ALL_PHONES_QUERY, query = "SELECT b FROM Phone b left join fetch b.contacts") // left join fetch b.contacts
+@NamedQuery( name = Phone.PHONES_QUERY_BY_ID, query = "SELECT b FROM Phone b left join fetch b.contacts where b.id=:param1") //left join fetch b.contacts 
 public class Phone extends PojoBase implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -48,7 +48,7 @@ public class Phone extends PojoBase implements Serializable{
 	@Column( name = "number")
 	private String number;
 
-	@OneToMany(cascade=CascadeType.MERGE, fetch = FetchType.LAZY)
+	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
 	@JoinColumn( name = "phone_id", referencedColumnName = "phone_id", insertable = false, updatable = false)
 	private Set< Contact> contacts = new HashSet<>();
 

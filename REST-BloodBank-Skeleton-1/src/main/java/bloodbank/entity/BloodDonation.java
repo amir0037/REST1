@@ -44,7 +44,7 @@ public class BloodDonation extends PojoBase implements Serializable {
 	@JoinColumn(name="bank_id")
 	private BloodBank bank;
 
-	@OneToOne(cascade=CascadeType.MERGE, fetch = FetchType.LAZY, optional = true)
+	@OneToOne(cascade= {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, optional = true)
 	@JoinColumn( name = "donation_id", referencedColumnName = "donation_id", nullable = true, insertable = false, updatable = false)
 	private DonationRecord record;
 

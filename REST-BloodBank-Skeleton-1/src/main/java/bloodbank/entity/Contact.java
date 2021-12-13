@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table( name = "contact")
-@Access(AccessType.PROPERTY)
+@Access(AccessType.FIELD)
 @NamedQuery( name = "Contact.findAll", query = "SELECT c FROM Contact c left JOIN FETCH c.address left JOIN FETCH c.phone left JOIN FETCH c.owner")
 @NamedQuery( name = Contact.SPECIFIC_CONTACT_QUERY_ID, query = "SELECT c FROM Contact c left JOIN FETCH c.address left JOIN FETCH c.phone left JOIN FETCH c.owner where c.address.id=:param1")
 
@@ -39,12 +39,28 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 	private static final long serialVersionUID = 1L;
 	
 	public static final String SPECIFIC_CONTACT_QUERY_ID = "Contact.findById";
-
+	
+	@EmbeddedId
 	private ContactPK id;
+
+	@MapsId( "personId")
+	@ManyToOne( cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+	@JoinColumn( name = "person_id", referencedColumnName = "id", nullable = false)
 	private Person owner;
+
+	@MapsId( "phoneId")
+	@ManyToOne( cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+	@JoinColumn( name = "phone_id", referencedColumnName = "phone_id", nullable = false)
 	private Phone phone;
+
+	@ManyToOne( cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
+	@JoinColumn( name = "address_id", referencedColumnName = "address_id", nullable = true)
 	private Address address;
+
+	@Column( length = 100, name = "email")
 	private String email;
+
+	@Column( length = 10, name = "contact_type", nullable = false)
 	private String contactType;
 
 	public Contact() {
@@ -52,7 +68,6 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 	}
 
 	@Override
-	@EmbeddedId
 	public ContactPK getId() {
 		return id;
 	}
@@ -62,24 +77,19 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 	}
 	
 	@JsonIgnore
-	@MapsId( "personId")
-	@ManyToOne( cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-	@JoinColumn( name = "person_id", referencedColumnName = "id", nullable = false)
 	public Person getOwner() {
 		return owner;
 	}
 	public void setOwner( Person owner) {
+		id.setPersonId( owner.id);
 		this.owner = owner;
 		//we must manually set the 'other' side of the relationship (JPA does not 'do' auto-management of relationships)
-		if (owner != null) {
-			owner.getContacts().add(this);
-		}
+		//if (owner != null) {
+			//owner.getContacts().add(this);
+		//}
 	}
 	
 	@JsonIgnore
-	@MapsId( "phoneId")
-	@ManyToOne( cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-	@JoinColumn( name = "phone_id", referencedColumnName = "phone_id", nullable = false)
 	public Phone getPhone() {
 		return phone;
 	}
@@ -92,8 +102,6 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 	}
 	
 	@JsonIgnore
-	@ManyToOne( cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
-	@JoinColumn( name = "address_id", referencedColumnName = "address_id", nullable = true)
 	public Address getAddress() {
 		return address;
 	}
@@ -105,7 +113,6 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 		}
 	}
 
-	@Column( length = 100, name = "email")
 	public String getEmail() {
 		return email;
 	}
@@ -113,7 +120,6 @@ public class Contact extends PojoBaseCompositeKey< ContactPK> implements Seriali
 		this.email = email;
 	}
 
-	@Column( length = 10, name = "contact_type", nullable = false)
 	public String getContactType() {
 		return contactType;
 	}
