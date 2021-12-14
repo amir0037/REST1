@@ -404,6 +404,13 @@ public class BloodBankService implements Serializable {
     
     
     // Begin DonationRecord Resource
+    
+//    public boolean isDuplicated(BloodBank newBloodBank) {
+//        TypedQuery<Long> allBloodBankQuery = em.createNamedQuery(IS_DUPLICATE_QUERY_NAME, Long.class);
+//        allBloodBankQuery.setParameter(PARAM1, newBloodBank.getName());
+//        return (allBloodBankQuery.getSingleResult() >= 1);
+//    }
+    
     public DonationRecord getDonationRecordById(int recordId) {
     	return em.find(DonationRecord.class, recordId);
     }
@@ -425,13 +432,19 @@ public class BloodBankService implements Serializable {
     	return donationToBeUpdated;
     }
     
+    
+    // Working on this
     @Transactional
     public DonationRecord deleteDonationRecordById(int recordId) {
     	DonationRecord record = getDonationRecordById(recordId);
     	em.refresh(record);
-    	em.remove(record);
+    	if (record != null) {
+    		record.setOwner(null);
+    		record.setDonation(null);
+        	em.remove(record);
+    	}
     	
-    	return record;
+    	return null;
     }
     
     // End DonationRecord Resource

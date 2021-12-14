@@ -18,11 +18,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import bloodbank.ejb.BloodBankService;
+import bloodbank.entity.BloodBank;
 import bloodbank.entity.DonationRecord;
 
 @Path("DonationRecord")
@@ -69,6 +71,7 @@ public class DonationRecordResource {
 		Response response = Response.ok(donation).build();
 		return response;
 	}
+
 	
 	@PUT
 	@RolesAllowed({ADMIN_ROLE})

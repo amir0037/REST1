@@ -23,11 +23,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import bloodbank.rest.serializer.BloodBankDeserializer;
-import bloodbank.rest.serializer.BloodBankSerializer;
 
 /**
  * The persistent class for the donation_record database table.
@@ -37,8 +32,6 @@ import bloodbank.rest.serializer.BloodBankSerializer;
 @NamedQuery( name = DonationRecord.ALL_RECORDS_QUERY_NAME, query = "SELECT d FROM DonationRecord d left join fetch d.owner left join fetch d.donation")
 @NamedQuery( name = DonationRecord.ID_RECORD_QUERY_ID, query = "SELECT d FROM DonationRecord d left join fetch d.owner left join fetch d.donation where d.id=:param1")
 @AttributeOverride( name = "id", column = @Column( name = "record_id"))
-@JsonSerialize(using = BloodBankSerializer.class)
-@JsonDeserialize(using = BloodBankDeserializer.class)
 public class DonationRecord extends PojoBase implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
