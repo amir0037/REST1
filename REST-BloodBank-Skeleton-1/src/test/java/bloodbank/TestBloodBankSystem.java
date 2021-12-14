@@ -112,7 +112,19 @@ public class TestBloodBankSystem {
     }
     
     @Test
-    public void test02_all_addresses_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test02_all_persons_with_userrole() throws JsonMappingException, JsonProcessingException {
+        Response response = webTarget
+            .register(userAuth)
+            .path(PERSON_RESOURCE_NAME)
+            .request()
+            .get();
+        assertThat(response.getStatus(), is(401));
+
+
+    }
+    
+    @Test
+    public void test03_all_addresses_with_adminrole() throws JsonMappingException, JsonProcessingException {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
@@ -125,8 +137,10 @@ public class TestBloodBankSystem {
         assertThat(addresses, hasSize(1));
     }
     
+
+    
     @Test
-    public void test03_all_blooddonations_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test04_all_blooddonations_with_adminrole() throws JsonMappingException, JsonProcessingException {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
@@ -140,7 +154,7 @@ public class TestBloodBankSystem {
     }
     
     @Test
-    public void test04_all_phones_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test05_all_phones_with_adminrole() throws JsonMappingException, JsonProcessingException {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
@@ -154,7 +168,18 @@ public class TestBloodBankSystem {
     }
     
     @Test
-    public void test05_all_bloodbanks_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test06_all_phones_with_userrole() throws JsonMappingException, JsonProcessingException {
+        Response response = webTarget
+            //.register(userAuth)
+            .register(userAuth)
+            .path("phone")
+            .request()
+            .get();
+        assertThat(response.getStatus(), is(401));
+    }
+    
+    @Test
+    public void test07_all_bloodbanks_with_adminrole() throws JsonMappingException, JsonProcessingException {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
@@ -167,9 +192,19 @@ public class TestBloodBankSystem {
         assertThat(bloodbanks, hasSize(2));
     }
     
+    @Test
+    public void test08_all_bloodbank_with_userrole() throws JsonMappingException, JsonProcessingException {
+        Response response = webTarget
+            .register(userAuth)
+            .path("bloodbank")
+            .request()
+            .get();
+        assertThat(response.getStatus(), is(401));
+    }
+    
     
     @Test
-    public void test06_all_contacts_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test09_all_contacts_with_adminrole() throws JsonMappingException, JsonProcessingException {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
@@ -183,7 +218,7 @@ public class TestBloodBankSystem {
     }
     
     @Test
-    public void test07_all_donationrecords_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test10_all_donationrecords_with_adminrole() throws JsonMappingException, JsonProcessingException {
         Response response = webTarget
             //.register(userAuth)
             .register(adminAuth)
@@ -196,10 +231,20 @@ public class TestBloodBankSystem {
         assertThat(donationrecords, hasSize(2));
     }
     
+    @Test
+    public void test11_all_donationrecords_with_userrole() throws JsonMappingException, JsonProcessingException {
+        Response response = webTarget
+            //.register(userAuth)
+            .register(userAuth)
+            .path("DonationRecord")
+            .request()
+            .get();
+        assertThat(response.getStatus(), is(401));
+    }
     //TESTS findByID
     
     @Test
-    public void test08_get_personById_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test12_get_personById_with_adminrole() throws JsonMappingException, JsonProcessingException {
      	Response response = webTarget
             .register(adminAuth)
             .path("person/").path("1")
@@ -212,7 +257,7 @@ public class TestBloodBankSystem {
     }
     
     @Test
-    public void test09_get_addressById_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test13_get_addressById_with_adminrole() throws JsonMappingException, JsonProcessingException {
      	Response response = webTarget
             .register(adminAuth)
             .path("address/").path("1")
@@ -229,7 +274,7 @@ public class TestBloodBankSystem {
     }
     
     @Test
-    public void test10_get_blooddonationById_with_adminrole() throws JsonMappingException, JsonProcessingException {
+    public void test14_get_blooddonationById_with_adminrole() throws JsonMappingException, JsonProcessingException {
      	Response response = webTarget
             .register(adminAuth)
             .path("BloodDonation/").path("2")
@@ -241,7 +286,7 @@ public class TestBloodBankSystem {
     }
         
         @Test
-        public void test11_get_phoneById_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        public void test15_get_phoneById_with_adminrole() throws JsonMappingException, JsonProcessingException {
          	Response response = webTarget
                 .register(adminAuth)
                 .path("phone/").path("2")
@@ -255,7 +300,7 @@ public class TestBloodBankSystem {
         }
         
         @Test
-        public void test12_get_bloodbankById_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        public void test16_get_bloodbankById_with_adminrole() throws JsonMappingException, JsonProcessingException {
          	Response response = webTarget
                 .register(adminAuth)
                 .path("bloodbank").path("2")
@@ -267,7 +312,7 @@ public class TestBloodBankSystem {
             }
         
         @Test
-        public void test13_get_contactById_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        public void test17_get_contactById_with_adminrole() throws JsonMappingException, JsonProcessingException {
          	Response response = webTarget
                 .register(adminAuth)
                 .path("contact/").path("1")
@@ -281,7 +326,7 @@ public class TestBloodBankSystem {
             }
         
         @Test
-        public void test14_get_donationrecordById_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        public void test18_get_donationrecordById_with_adminrole() throws JsonMappingException, JsonProcessingException {
          	Response response = webTarget
                 .register(adminAuth)
                 .path("DonationRecord/").path("2")
@@ -293,38 +338,167 @@ public class TestBloodBankSystem {
             }
         
         
-        
-        
-        
-        
-         
-       
-
-    
-    //TESTS DELETE
-    
-    //person address blooddonation phones bloodbank contact donationrecord
-        
+        // Delete 
         @Test
-        public void test16_delete_address_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        public void test19_get_addressDelete_with_adminrole() throws JsonMappingException, JsonProcessingException {
         	Response response = webTarget
-        		.register(adminAuth)
-                .path("address").path("1")
-                .request()
-                .delete();
+        			.register(adminAuth)
+        			.path("address/").path("1")
+        			.request()
+        			.delete();
         	assertThat(response.getStatus(), is(200));
         	assertEquals(response.hasEntity(), true);
-      }
+        }
         
         @Test
-        public void test15_delete_address_with_userrole() throws JsonMappingException, JsonProcessingException {
+        public void test20_get_addressDelete_with_userrole() throws JsonMappingException, JsonProcessingException {
         	Response response = webTarget
-        		.register(userAuth)
-                .path("address").path("1")
-                .request()
-                .delete();
+        			.register(userAuth)
+        			.path("address/").path("1")
+        			.request()
+        			.delete();
         	assertThat(response.getStatus(), is(401));
-      }
+        }
+        
+        @Test
+        public void test21_get_phoneDelete_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        			.register(adminAuth)
+        			.path("phone")
+        			.request()
+        			.delete();
+        	assertThat(response.getStatus(), is(200));
+        	assertEquals(response.hasEntity(), true);
+        }
+        
+        @Test 
+        public void test22_get_phoneDelete_with_userrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        			.register(userAuth)
+        			.path("phone")
+        			.request()
+        			.delete();
+        	assertThat(response.getStatus(), is(401));
+        }
+        
+        @Test 
+        public void test23_get_donationRecordDelete_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        			.register(adminAuth)
+        			.path("DonationRecord")
+        			.request()
+        			.delete();
+        	assertThat(response.getStatus(), is(200));
+        	assertEquals(response.hasEntity(), true);
+        }
+        
+        @Test 
+        public void test24_get_donationRecordDelete_with_userrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        			.register(userAuth)
+        			.path("DonationRecord")
+        			.request()
+        			.delete();
+        	assertThat(response.getStatus(), is(401));
+        }
+        
+        @Test
+        public void test25_get_bloodBankDelete_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        			.register(adminAuth)
+        			.path("bloodbank").path("2")
+        			.request()
+        			.delete();
+        	
+        	assertThat(response.getStatus(), is(401));
+        	
+        }
+        
+        @Test 
+        public void test26_get_bloodBankDelete_with_userrole() throws JsonMappingException, JsonProcessingException {
+        	Response response = webTarget
+        			.register(userAuth)
+        			.path("bloodbank").path("2")
+        			.request()
+        			.delete();
+        	
+        	assertThat(response.getStatus(), is(401));
+        }
+        
+        //Create
+        
+        @Test
+        public void test27_get_addressPOST_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        	
+        	Address newAddress = new Address();
+        	newAddress.setAddress("234", "baycr", "Ottawa", "Ontario", "Canada", "K2V8F8");
+        	
+        	Response response = webTarget
+        			.register(adminAuth)
+        			.path("address")
+        			.request()
+        			.post(Entity.json(newAddress));
+        	
+        	assertThat(response.getStatus(), is(200));
+        	assertEquals(response.hasEntity(), true);
+     
+        }
+        
+        @Test
+        public void test28_get_addressPOST_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        	
+        	Address newAddress = new Address();
+        	newAddress.setAddress("234", "baycr", "Ottawa", "Ontario", "Canada", "K2V8F8");
+        	
+        	Response response = webTarget
+        			.register(adminAuth)
+        			.path("address")
+        			.request()
+        			.post(Entity.json(newAddress));
+        	
+        	assertThat(response.getStatus(), is(200));
+        	assertEquals(response.hasEntity(), true);
+     
+        }
+               
+        
+        @Test
+        public void test29_get_phonePOST_with_adminrole() throws JsonMappingException, JsonProcessingException {
+        	
+        	Phone newPhone = new Phone();
+        	newPhone.setNumber("1", "333", "2345678");
+        	
+        	Response response = webTarget
+        			.register(adminAuth)
+        			.path("phone")
+        			.request()
+        			.post(Entity.json(newPhone));
+        	
+        	assertThat(response.getStatus(), is(200));
+        	assertEquals(response.hasEntity(), true);
+        }
+
+        @Test
+        public void test30_get_phonePOST_with_userrole() throws JsonMappingException, JsonProcessingException {
+        	
+        	Phone newPhone = new Phone();
+        	newPhone.setNumber("1", "333", "2345678");
+        	
+        	Response response = webTarget
+        			.register(userAuth)
+        			.path("phone")
+        			.request()
+        			.post(Entity.json(newPhone));
+        	
+        	assertThat(response.getStatus(), is(401));
+
+        }
+        
+        
+        
+     
+        
+        
     
     
     
