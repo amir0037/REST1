@@ -6,8 +6,12 @@
  * @author Shariar (Shawn) Emami
  * @author (original) Mike Norman
  * 
- * Updated by:  I. Am. A. Student 040nnnnnnn
  *
+ * (Modified) @author 
+ * Amirova Maria 040980332
+ * De Silva Ayesh 040958448
+ * Redona Herman 041017699
+ * Nguyen Ny Ngoc Han 040972914
  */
 package bloodbank.ejb;
 

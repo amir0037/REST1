@@ -4,9 +4,13 @@
  * Teddy Yap
  * (Original Author) Mike Norman
  *
- * @date 2020 10
+ * @date 2021/12/15
  *
- * (Modified) @author Student Name
+ * (Modified) @author 
+ * Amirova Maria 040980332
+ * De Silva Ayesh 040958448
+ * Redona Herman 041017699
+ * Nguyen Ny Ngoc Han 040972914
  */
 package bloodbank;
 
@@ -493,20 +497,5 @@ public class TestBloodBankSystem {
         	assertThat(response.getStatus(), is(401));
 
         }
-        
-        
-        
-     
-        
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
